@@ -5,6 +5,7 @@ namespace Luban.Datas;
 
 public class DString : DType<string>
 {
+    public bool isJsonString = false;
     private static readonly DString s_empty = new("");
 
     public static DString ValueOf(TType type, string s)
@@ -13,16 +14,16 @@ public class DString : DType<string>
         {
             return s_empty;
         }
-
+        bool isJsonString = type.HasTag("isJson");
         string escapeMode = type.GetTagOrDefault("escape", "0")?.ToLowerInvariant();
         switch (escapeMode)
         {
             case "0":
             case "false":
-                return new DString(s);
+                return new DString(s, isJsonString);
             case "1":
             case "true":
-                return new DString(System.Text.RegularExpressions.Regex.Unescape(s));
+                return new DString(System.Text.RegularExpressions.Regex.Unescape(s), isJsonString);
             default:
                 throw new Exception($"unknown escape mode:{escapeMode}");
         }
@@ -30,8 +31,9 @@ public class DString : DType<string>
 
     public override string TypeName => "string";
 
-    private DString(string x) : base(x)
+    private DString(string x, bool jsonString = false) : base(x)
     {
+        isJsonString = jsonString;
     }
 
     public override void Apply<T>(IDataActionVisitor<T> visitor, T x)
