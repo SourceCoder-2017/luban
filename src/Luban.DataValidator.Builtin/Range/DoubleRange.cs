@@ -61,6 +61,14 @@ public class DoubleRange
         {
             throw new Exception($"range定义不合法");
         }
+        if (_min != null && _min != (long)_min)
+        {
+            _min -= 1e-6;
+        }
+        if (_max != null && _max != (long)_max)
+        {
+            _max += 1e-6;
+        }
     }
 
     public string RawStr => _str;

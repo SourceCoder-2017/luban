@@ -12,10 +12,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Google.Protobuf" Version="3.24.0" />
+      <PackageReference Include="Google.Protobuf" Version="3.29.0" />
     </ItemGroup>
 
     <ItemGroup>
+      <None Update="Templates\cs_pb\tables.sbn">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="Templates\pb\schema.sbn">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

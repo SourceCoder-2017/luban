@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Luban.RawDefs;
 using Luban.Schema;
 using Luban.Utils;
@@ -52,6 +53,8 @@ public class GlobalConfigLoader : IConfigLoader
         public string DataDir { get; set; }
 
         public List<Target> Targets { get; set; }
+
+        public List<string> Xargs { get; set; }
     }
 
     public LubanConfig Load(string fileName)
@@ -75,16 +78,15 @@ public class GlobalConfigLoader : IConfigLoader
         List<SchemaFileInfo> importFiles = new();
         foreach (var schemaFile in globalConf.SchemaFiles)
         {
+            string fileOrDirectory = Path.Combine(_curDir, schemaFile.FileName);
             if (string.IsNullOrEmpty(schemaFile.Type))
             {
-                var fullPath = Path.Combine(_curDir, schemaFile.FileName);
-                if (!Directory.Exists(fullPath))
+                if (!Directory.Exists(fileOrDirectory) && !File.Exists(fileOrDirectory))
                 {
-                    throw new Exception($"{configFileName} schemal 文件错误: 目录'{fullPath}'不存在");
+                    throw new Exception($"failed to load schema file:'{fileOrDirectory}': directory or file doesn't exists!");
                 }
             }
-            string fileOrDirectory = Path.Combine(_curDir, schemaFile.FileName);
-            foreach (var subFile in FileUtil.GetFileOrDirectory(fileOrDirectory))
+            foreach (var subFile in FileUtil.GetFileOrDirectory(_curDir, fileOrDirectory))
             {
                 importFiles.Add(new SchemaFileInfo() { FileName = subFile, Type = schemaFile.Type });
             }
@@ -96,6 +98,7 @@ public class GlobalConfigLoader : IConfigLoader
             Groups = groups,
             Targets = targets,
             Imports = importFiles,
+            Xargs = globalConf.Xargs,
         };
     }
 

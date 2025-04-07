@@ -29,7 +29,18 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <OutputType>Exe</OutputType>
+        <RepositoryUrl>https://github.com/focus-creative-games/luban</RepositoryUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackAsTool>True</PackAsTool>
+        <FileVersion>$(AssemblyVersion)</FileVersion>
+        <Version>3.14.0</Version>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Plugin\**" />
+      <EmbeddedResource Remove="Plugin\**" />
+      <None Remove="Plugin\**" />
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.9.1" />
@@ -41,6 +52,7 @@
       <ProjectReference Include="..\Luban.Cpp\Luban.Cpp.csproj" />
       <ProjectReference Include="..\Luban.CSharp\Luban.CSharp.csproj" />
       <ProjectReference Include="..\Luban.Core\Luban.Core.csproj" />
+      <ProjectReference Include="..\Luban.Dart\Luban.Dart.csproj" />
       <ProjectReference Include="..\Luban.DataTarget.Builtin\Luban.DataTarget.Builtin.csproj" />
       <ProjectReference Include="..\Luban.DataLoader.Builtin\Luban.DataLoader.Builtin.csproj" />
       <ProjectReference Include="..\Luban.DataValidator.Builtin\Luban.DataValidator.Builtin.csproj" />
@@ -54,12 +66,16 @@
       <ProjectReference Include="..\Luban.PHP\Luban.PHP.csproj" />
       <ProjectReference Include="..\Luban.Protobuf\Luban.Protobuf.csproj" />
       <ProjectReference Include="..\Luban.Python\Luban.Python.csproj" />
+      <ProjectReference Include="..\Luban.Rust\Luban.Rust.csproj" />
       <ProjectReference Include="..\Luban.Schema.Builtin\Luban.Schema.Builtin.csproj" />
       <ProjectReference Include="..\Luban.Typescript\Luban.Typescript.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Plugin\" />
+      <None Include="..\..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
